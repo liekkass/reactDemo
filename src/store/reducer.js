@@ -1,4 +1,4 @@
-import {INPUT_CHANGE, BUTTON_CLICK, DELETE_ITEM} from './actionType'
+import {INPUT_CHANGE, BUTTON_CLICK, DELETE_ITEM, TABLE_LIST} from './actionType'
 const defaultState= {
   inputValue : '',
   list:[
@@ -20,6 +20,9 @@ export default (state=defaultState, action) => {
         break
       case DELETE_ITEM:
         newState.list.splice(action.value, 1)
+        break
+      case TABLE_LIST:
+        newState.list=action.value
         break
       default:
         return newState  

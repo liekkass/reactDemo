@@ -1,43 +1,34 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css'
-import {changeInputAction, buttonClickAction, deleteItemAction} from './store/actionCreators'
-import {Input, Button, List} from 'antd'
+import {changeInputAction, buttonClickAction, deleteItemAction, getTaleList} from './store/actionCreators'
 import store from './store/index'
+import ListUI from './ListUI'
+import axios from 'axios'
 
 class list extends Component {
   constructor(props){
     super(props)
     this.inputChange=this.inputChange.bind(this)
     this.buttonClick=this.buttonClick.bind(this)
+    this.deleteItem=this.deleteItem.bind(this)
     this.state = store.getState()
-
     this.storeChange= this.storeChange.bind(this)
     store.subscribe(this.storeChange)// 订阅Redux指向
   }
+  componentDidMount(){
+    axios.get('https://www.fastmock.site/mock/0cd1ac7447e5d2cef420a29a4ab29730/tableList/api/getTableList').then(data =>{
+      const action = getTaleList(data.data.data.list)
+      store.dispatch(action)
+    })
+  }
   render() { 
     return (
-      <div>
-        <Input 
-          placeholder='请填写内容'
-          style={{width: "300px"}}
-          value={this.state.inputValue}
-          onChange={this.inputChange}>
-        </Input>
-        <Button type="primary" onClick={this.buttonClick}>增加</Button>
-        <div style={{margin: '10px'}}>
-          <List
-            bordered
-            dataSource={this.state.list}
-            renderItem={(item,index) =>(
-            <List.Item
-              key={index +item}
-              onClick={this.deleteItem.bind(this,index)}>
-              {item}
-            </List.Item>
-            )}>
-          </List>
-        </div>
-      </div>
+      <ListUI
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        inputChange={this.inputChange}
+        buttonClick={this.buttonClick}
+        deleteItem={this.deleteItem}>
+      </ListUI>
     )
   }
   inputChange(e) {
