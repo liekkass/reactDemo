@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {changeInputAction, buttonClickAction, deleteItemAction, getTaleList} from './store/actionCreators'
+import {changeInputAction, buttonClickAction, deleteItemAction, getSagaListData} from './store/actionCreators'
 import store from './store/index'
 import ListUI from './ListUI'
-import axios from 'axios'
 
 class list extends Component {
   constructor(props){
@@ -15,10 +14,9 @@ class list extends Component {
     store.subscribe(this.storeChange)// 订阅Redux指向
   }
   componentDidMount(){
-    axios.get('https://www.fastmock.site/mock/0cd1ac7447e5d2cef420a29a4ab29730/tableList/api/getTableList').then(data =>{
-      const action = getTaleList(data.data.data.list)
-      store.dispatch(action)
-    })
+    // const action = getTodoList() // 使用redux_thunk
+    const action = getSagaListData()
+    store.dispatch(action)
   }
   render() { 
     return (

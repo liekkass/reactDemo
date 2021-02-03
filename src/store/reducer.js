@@ -1,10 +1,7 @@
 import {INPUT_CHANGE, BUTTON_CLICK, DELETE_ITEM, TABLE_LIST} from './actionType'
 const defaultState= {
   inputValue : '',
-  list:[
-      '早上4点起床，锻炼身体',
-      '中午下班游泳一小时'
-  ]
+  list:[]
 } //默认数据
 // eslint-disable-next-line
 export default (state=defaultState, action) => {
